@@ -1,38 +1,63 @@
 import React from 'react';
+
 import './App.css';
 import './Styles.css';
-import Header from './Header';
-import BgImg from './BgImg';
-import Footer from './Footer';
-import RegBtn from './RegBtn';
-import './RegBtn.css';
+import './components/RegBtn.css';
+import './components/Compiler.css';
+
+import Header from './components/Header';
+import BgImg from './components/BgImg';
+import Footer from './components/Footer';
+import RegBtn from './components/RegBtn';
+import Computer from './components/CompBlock';
+import Compiler from './components/Compiler';
+
+import { BrowserRouter, Switch, Route, Link, NavLink, Redirect } from 'react-router-dom';
 
 function App() {
-  const navItems = ["домашня", "карта", "бібліотека"];
+  const navItems = [["домашня", "home"], ["карта", "map"], ["бібліотека", "library"]];
   return (
-    <div className="App">
-      <Header title="retrocomputing" navItems={navItems}></Header>
-      <main class="main">
-        <h1>PDP-11</h1>
-        <BgImg />
-        <br />
-        <RegBtn href="#" type="submit" value="Find more on PDP-11" /><br/><br/>
-        <RegBtn href="#" type="important" value="Map of computing" />
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia saepe quia aut sunt ratione? Fugiat nostrum quam voluptates praesentium totam quibusdam ab, laborum, molestias autem, debitis quos modi. Dolore, laborum!
-            Quae nemo reprehenderit id doloribus, cumque numquam facere recusandae aspernatur? Consequatur eveniet quia similique unde harum reiciendis laudantium iure corrupti recusandae maxime vitae, autem numquam ex magnam, dignissimos debitis perspiciatis.
-            Et laborum soluta autem, maiores incidunt numquam ea molestias sed doloribus tempora id! Voluptates aperiam, doloremque nihil quas beatae nostrum quaerat quis explicabo mollitia, eveniet aliquid eligendi labore? Dignissimos, eveniet?
-            Corrupti, tempora excepturi? Ipsa laudantium, fuga facere incidunt a sequi ea, rem quisquam voluptatem, temporibus quae deleniti autem? Repudiandae neque, enim nemo commodi doloremque nesciunt est rem temporibus tenetur sit.
-            Rerum veniam excepturi sit ipsum cupiditate neque inventore nam aut totam eveniet? Iure consequuntur sequi, odio dignissimos aspernatur, dolores officiis eligendi vero dolorum expedita repellendus dolorem saepe esse repudiandae ullam!
-            Obcaecati nam pariatur tenetur numquam maxime. Fugit esse dicta maxime dolores placeat odit sit corrupti quo, quis ipsa voluptatem eos similique nostrum voluptas ut exercitationem ab accusantium sint? Tempore, sunt.
-            Magnam laudantium sapiente vel? Cupiditate, perferendis, dolorem ullam dicta eligendi eveniet fugit in culpa recusandae porro consequatur omnis distinctio commodi totam tempore vel deleniti, neque repellendus veniam sint voluptatem debitis.
-            Quae, doloremque fugit repellat quibusdam est, vel odio quod quaerat cupiditate quidem porro esse eveniet eius ullam maiores neque culpa ad perferendis beatae eligendi labore. Temporibus odio facilis autem tempore.
-            Quos dicta exercitationem facere dolor provident vitae odio quis eius, odit laudantium quam dignissimos libero quidem eligendi excepturi reiciendis voluptate quas? Quasi numquam labore ea asperiores deserunt qui! Adipisci, nostrum.
-            Corrupti nesciunt ab nam reiciendis tenetur reprehenderit molestias debitis temporibus, magnam delectus. Recusandae aperiam mollitia dicta quasi veniam, iure eius officiis maxime placeat porro illum eos reprehenderit, amet saepe perspiciatis.  
-        </p>
+    <BrowserRouter>
+      <div className="App">
+        <Header title="retrocomputing" navItems={navItems}></Header>
+        <main class="main">
+          <Compiler />
+          <Switch>
+            <Route path="/library">
+              <p>
+                There will be library of computers in future
+              </p>
+            </Route>
+            <Route path="/map">
+              <p>
+                There will be map of computing in future
+              </p>
+            </Route>
+            <Route path="/">
+              <h1>PDP-11</h1>
+              <BgImg />
+              <br />
+              <RegBtn href="/library" type="submit" value="Find more on PDP-11" /><br/><br/>
+              <RegBtn href="/map" type="important" value="Map of computing" />
+              <p>
+                Retrocomputing is the use of older computer hardware and software in modern times.
+                Retrocomputing is usually classed as a hobby and recreation rather than a practical application of technology;
+                enthusiasts often collect rare and valuable hardware and software for sentimental reasons. However, some do make use of it.
+                The personal computer has been around since approximately 1976. But in that time, numerous technological revolutions have left
+                generations of obsolete computing equipment on the junk heap. Nevertheless, in that time, these otherwise useless computers
+                have spawned a sub-culture of vintage computer collectors, who often spend large sums to acquire the rarest of these items,
+                not only to display but restore to their fully functioning glory, including active software development and adaptation to modern
+                uses. This often includes so-called hackers who add-on, update and create hybrid composites from new and old computers for uses
+                for which they were otherwise never intended. Ethernet interfaces have been designed for many vintage 8-bit machines to allow limited
+                connectivity to the Internet; where users can access user groups, bulletin boards and databases of software. Most of this hobby centers
+                on those computers manufactured after 1960, though some collectors specialize in pre-1960 computers as well. 
+              </p>
+            </Route>
+          </Switch>
     </main>
     <Footer navTitle="retrocomputing" navItems={navItems} author="Maksym Shumakov" email="shumakov@ucu.edu.ua" place="Ukrainian Catholic University"></Footer>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
