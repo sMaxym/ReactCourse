@@ -3,12 +3,10 @@ import React from 'react';
 class Compiler extends React.PureComponent {
     constructor(props) {
         super(props);
-
         this.state = {
             dir: '',
             text: ':/',
             lastWord: '',
-            constTextLength: 2,
             cursorVisible: true
         };
         this.cursorChar = '|';
@@ -18,6 +16,7 @@ class Compiler extends React.PureComponent {
             enter: 13,
             space: 32
         };
+        this.commandPattern = /^[a-zA-Z]+(\s+(\d|[a-zA-Z])+)*$/;
     }
 
     changeCursorVisibility() {
@@ -25,23 +24,96 @@ class Compiler extends React.PureComponent {
     }
 
     handleKeyDown(event) {
-        let updatedText;
+        event.preventDefault();
+        let updatedLastWord = this.state.lastWord, updatedText = this.state.text;
         if (event.keyCode === this.KEYCODE.backspace) {
-            if (this.state.text.length > this.state.constTextLength) {
-                updatedText = this.state.text.slice(0, -1);
-            } else {
-                updatedText = this.state.text;
+            if (this.state.lastWord.length > 0) {
+                updatedLastWord = this.state.lastWord.slice(0, -1);
             }
         } else if (event.keyCode === this.KEYCODE.enter) {
-            this.state.constTextLength += this.state.lastWord.length;
-            updatedText = this.state.text + ' :/';
+            if (this.state.lastWord !== '') {
+                updatedText = this.state.text + this.state.lastWord + ' :/';
+                this.uploadToHistory(this.state.lastWord);
+                updatedLastWord = '';
+                this.setState({ text: updatedText, lastWord: updatedLastWord });
+                this.executeCommand(this.state.lastWord, updatedText);
+                return;
+            }
         } else if (event.keyCode === this.KEYCODE.space) {
-            updatedText = this.state.text + ' ';
+            updatedLastWord = this.state.lastWord + ' ';
         } else {
             const keyChar = String.fromCharCode(event.keyCode).toLocaleLowerCase();
-            updatedText = this.state.text + keyChar;
+            updatedLastWord = this.state.lastWord + keyChar;
         }
-        this.setState({ text: updatedText });
+        this.setState({ text: updatedText, lastWord: updatedLastWord });
+    }
+
+    executeCommand(command, cur_text) {
+        command = command.trim();
+        let cmd_geth_matches = this.commandPattern.exec(command);
+        if (cmd_geth_matches === null) {
+            this.executeCmdUnknown();
+            return;
+        }
+        let cmd_parts = cmd_geth_matches[0].split(' ').filter(str => str.length > 0);
+        command = cmd_parts[0];
+        switch (command) {
+            case 'clear':
+                this.executeCmdClear();
+                break;
+            case 'geth':
+                this.executeCmdGeth(parseInt(cmd_parts[1]));
+                break;
+            case 'print':
+                this.executeCmdPrint(cmd_parts.slice(1).join(' '));
+                break;
+            default:
+                this.executeCmdUnknown();
+        }
+    }
+
+    executeCmdUnknown() {
+        this.executeCmdPrint('unknown command');
+    }
+
+    executeCmdClear() {
+        this.setState({ text: ':/' });
+    }
+
+    executeCmdGeth(id) {
+        let output = '';
+        if (id < 0) return output;
+        fetch("/history/" + String(id)).then(response => {
+            return response.json();
+        }).then(json_data => {
+            output = 'command: ' + json_data.command + ', date: ' + json_data.date;
+            this.setState({ text: this.state.text + ' ' + output + ':/' });
+        });
+    }
+
+    executeCmdPrint(mess) {
+        this.setState({ text: this.state.text + this.state.lastWord + ' ' + mess + ' :/' });
+    }
+
+    uploadToHistory(lastCommandText) {
+        let today = new Date(); // date example from https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+        let h = today.getHours();
+        let m = today.getMinutes();
+
+        let data = {
+            "date": mm + '/' + dd + '/' + yyyy + ' ' + h + ':' + m,
+            "command": lastCommandText
+        };
+        fetch("/history", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
     }
 
     // static getDerivedStateFromProps(nextProps, prevState) { }
@@ -64,7 +136,7 @@ class Compiler extends React.PureComponent {
     // }
 
     render() {
-        return <h1 class="compiler" onKeyDown={this.handleKeyDown} tabIndex="0">{this.state.text}{this.state.cursorVisible && this.cursorChar}</h1>;
+        return <h1 class="compiler" onKeyDown={this.handleKeyDown} tabIndex="0">{this.state.text + this.state.lastWord}{this.state.cursorVisible && this.cursorChar}</h1>;
     }
 }
 
