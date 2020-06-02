@@ -1,8 +1,9 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 function Footer(props) {
     const navItems = props.navItems.map((value) => {
-        return <a href="#">{value}</a>
+        return <Link to={value[1]}>{value[0]}</Link>
     });
     return (
         <footer class="footer-distributed">
