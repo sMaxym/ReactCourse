@@ -1,0 +1,3 @@
+export default `
+The Apple Computer 1, originally released as the Apple Computer, also known later as the Apple I, or Apple-1, is a desktop computer released by the Apple Computer Company (now Apple Inc.) in 1976. It was designed and hand-built by Steve Wozniak. The idea of selling the computer came from Wozniak's friend Steve Jobs. The Apple I was Apple's first product, and to finance its creation, Jobs sold his only motorized means of transportation, a VW Microbus, for a few hundred dollars (Wozniak later said that Jobs planned instead to use his bicycle to get around), and Wozniak sold his HP-65 calculator for $500.Wozniak demonstrated the first prototype in July 1976 at the Homebrew Computer Club in Palo Alto, California.
+`;

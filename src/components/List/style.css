@@ -1,0 +1,6 @@
+.block-list {
+    position: relative;
+    width: 70%;
+    left: 15%;
+    list-style: none;
+}
