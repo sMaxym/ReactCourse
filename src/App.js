@@ -16,6 +16,8 @@ import { BrowserRouter, Switch, Route, Link, NavLink, Redirect } from 'react-rou
 
 function App() {
   const navItems = [["домашня", "home"], ["карта", "map"], ["бібліотека", "library"]];
+  send_data({data:'hello'});
+  get_data();
   return (
     <BrowserRouter>
       <div className="App">
@@ -59,6 +61,24 @@ function App() {
       </div>
     </BrowserRouter>
   );
+}
+
+function get_data() {
+  fetch("/users").then(response => {
+    return response.json();
+  }).then(json_data => {
+    console.log(json_data)
+  });
+}
+
+function send_data(data) {
+  fetch("/users", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
 }
 
 export default App;
