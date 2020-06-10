@@ -1,6 +1,7 @@
 import React from 'react';
+import './style.css';
 
-class Compiler extends React.PureComponent {
+export class Compiler extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,8 +98,8 @@ class Compiler extends React.PureComponent {
 
     uploadToHistory(lastCommandText) {
         let today = new Date(); // date example from https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let dd = today.getDate().toString().padStart(2, '0');
+        let mm = (today.getMonth() + 1).toString().padStart(2, '0');
         let yyyy = today.getFullYear();
         let h = today.getHours();
         let m = today.getMinutes();
@@ -116,10 +117,6 @@ class Compiler extends React.PureComponent {
         });
     }
 
-    // static getDerivedStateFromProps(nextProps, prevState) { }
-    // getSnapshotBeforeUpdate(prevProps, prevState) { }
-    // componentDidUpdate() { }
-
     componentDidMount() {
         this.cursorTimer = setInterval(
             () => this.changeCursorVisibility(),
@@ -131,13 +128,7 @@ class Compiler extends React.PureComponent {
         clearInterval(this.cursorTimer);
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return this.state.text !== nextState.text;
-    // }
-
     render() {
         return <h1 class="compiler" onKeyDown={this.handleKeyDown} tabIndex="0">{this.state.text + this.state.lastWord}{this.state.cursorVisible && this.cursorChar}</h1>;
     }
 }
-
-export default Compiler

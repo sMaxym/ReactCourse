@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +41,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body { 
+  margin: 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.main {
+    position: relative;
+	background-color: #ecf0f1;
+	padding-bottom: 50px;
+}
+
+.main h1 {
+    padding: 20px;
+    margin: 0;
+}
+ 
+@media (max-width: 880px) {
+	.main {
+		line-height: normal;
+		font-size: auto;
+	}
 }

@@ -1,0 +1,5 @@
+export default `
+The Spectrum is based on a Zilog Z80 A CPU running at 3.5 MHz (or NEC D780C-1 clone). The original model has 16 KB (16×1024 bytes) of ROM and either 16 KB or 48 KB of RAM. Hardware design was by Richard Altwasser of Sinclair Research, and the outward appearance was designed by Sinclair's industrial designer Rick Dickinson.
+
+Video output is through an RF modulator and was designed for use with contemporary television sets, for a simple colour graphic display. Text can be displayed using 32 columns × 24 rows of characters from the ZX Spectrum character set or from a set provided within an application, from a palette of 15 shades: seven colours at two levels of brightness each, plus black.[9] The image resolution is 256×192 with the same colour limitations. To conserve memory, colour is stored separate from the pixel bitmap in a low resolution, 32×24 grid overlay, corresponding to the character cells. In practice, this means that all pixels of an 8x8 character block share one foreground colour and one background colour. Altwasser received a patent for this design.
+`;

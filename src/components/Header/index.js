@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import './style.css';
+import { Link } from 'react-router-dom';
 
-function Header(props) {
+export function Header(props) {
     const navItems = props.navItems.map((value) => {
-        return <li class="nav-item"><Link to={value[1]}>{value[0]}</Link></li>
+        return <li class="nav-item"><Link to={'/' + value[1]}>{value[0]}</Link></li>
     });
     return (
         <header class="header">
@@ -14,5 +15,3 @@ function Header(props) {
         </header>
     );
 }
-
-export default Header

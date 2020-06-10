@@ -1,0 +1,9 @@
+.main .bg-img {
+    position: relative;
+    /* background-image: url('%PUBLIC_URL%/logo192.png'); */
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: 0 20%;
+    background-attachment: fixed;
+}
